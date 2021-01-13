@@ -1,0 +1,19 @@
+{
+  "name": "rest-api",
+  "version": "1.0.1",
+  "description": "this is a nodejs rest api test application with mongodb db",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dlshnkLK/node-rest-api.git"
+  },
+  "author": "dil.dev",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dlshnkLK/node-rest-api/issues"
+  },
+  "homepage": "https://github.com/dlshnkLK/node-rest-api#readme"
+}
