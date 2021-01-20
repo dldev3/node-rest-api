@@ -2,9 +2,9 @@
   "name": "rest-api",
   "version": "1.0.1",
   "description": "this is a nodejs rest api test application with mongodb db",
-  "main": "app.js",
+  "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "nodemon server.js"
   },
   "repository": {
     "type": "git",
@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/dlshnkLK/node-rest-api/issues"
   },
-  "homepage": "https://github.com/dlshnkLK/node-rest-api#readme"
+  "homepage": "https://github.com/dlshnkLK/node-rest-api#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
 }
