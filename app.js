@@ -1,9 +1,15 @@
 const express = require('express');
 const app = express();
+require('dotenv').config();
 const morgan = require('morgan');
+const mongoose = require('mongoose');
 
 const productRoutes = require('./api/routes/products');
 const orderRoutes = require('./api/routes/orders');
+
+mongoose.connect('mongodb+srv://araliyamapa:'+ process.env.MONGODB_ATLAS_PASSWORD +'@cluster0.e74uy.mongodb.net/node_rest_api?retryWrites=true&w=majority', {
+    useNewUrlParser: true, useUnifiedTopology: true
+})
 
 // app.use((req, res, next) => {
 //     res.status(200).json({
