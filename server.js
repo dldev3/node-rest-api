@@ -7,4 +7,7 @@ const server = http.createServer(app);
 
 
 server.listen(PORT, () => {
-	console.log(`server is runnig at port ${PORT}`)});
+	 console.log(`⚡️[server]: Server is running at https://localhost:${PORT}`);
+});
+	
+

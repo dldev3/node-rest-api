@@ -7,16 +7,35 @@ const Product = require('../models/product');
 //get all products
 router.get('/', (req, res, next) => {
     Product.find()
+        .select("name price _id")
         .exec()
-        .then(result => {
-            if (result.length>0) {
-                res.status(200).json(result)
+        .then(results => {
+            if (results.length > 0) {
+                const response = {
+                    count: results.length,
+                    products: results.map(result => {
+                        return {
+                            name: result.name,
+                            price: result.price,
+                            _id: result._id,
+                            request: {
+                                type: 'GET',
+                                url: 'http://127.0.0.1:3000/products/'+result._id
+                            }
+                        }
+                    })
+                };
+                res.status(200).json(response);
             } else {
                 res.status(200).json({
                     message: 'No entries found'
-                })
+                });
             }
-        }).catch(err => console.log(err));
+        }).catch(err => {
+            res.status(500).json({
+                error: err
+            });
+        });
 });
 
 
@@ -29,14 +48,23 @@ router.post('/', (req, res, next) => {
         name: req.body.name,
         price: req.body.price
     });
-    product.save().then(result => {
-        console.log(result);
-        res.status(200).json({
-            created_product: product
-        });
-    }).catch(err => {
-        console.log(err);
-        res.status(500).json({ error: err });
+    product.save()
+        .then(result => {
+            res.status(201).json({
+                message: 'Product created successfully',
+                created_product: {
+                    name: result.name,
+                    price: result.price,
+                    _id: result._id,
+                    request: {
+                        type: 'POST',
+                        url:'http://127.0.0.1:3000/products/'+result._id
+                    }
+                }
+            });
+        })
+        .catch(err => {
+            res.status(500).json({ error: err });
     });
 });
 
@@ -48,16 +76,27 @@ router.post('/', (req, res, next) => {
 router.get('/:productId', (req, res, next) => {
     const id = req.params.productId;
     Product.findById(id)
+        .select("name price _id")
         .exec()
         .then(result => {
-            console.log(result);
-            res.status(200).json(result);
+            res.status(200).json({
+                product: {
+                    name: result.name,
+                    price: result.price,
+                    _id: result._id,
+                    request: {
+                        type: 'GET',
+                        url:'http://127.0.0.1:3000/products/'+result._id
+                    }
+                }
+            });
         })
         .catch(err => {
-            console.log(err);
             res.status(500).json({error: err});
         });
 });
+
+
 
 
 
@@ -73,7 +112,16 @@ router.patch('/:productId', (req, res, next) => {
             }
         }).exec()
         .then(result => {
-            res.status(200).json(result)
+            res.status(200).json({
+                updated_product: {
+                    name: result.name,
+                    price: result.price,
+                    request: {
+                        type: 'PATCH',
+                        url:'http://127.0.0.1:3000/products/'+result._id
+                    }
+                }
+            })
         })
         .catch(err => {
             res.status(500).json({
@@ -84,16 +132,35 @@ router.patch('/:productId', (req, res, next) => {
 
 
 
+
+
 //delete product
 router.delete('/:productId', (req, res, next) => {
     const id = req.params.productId;
     Product.deleteOne({ _id: id })
         .exec()
         .then(result => {
-            res.status(200).json(result)
+            res.status(200).json({
+                message: 'Product deleted',
+                create_new_product: {
+                    request: {
+                        type: 'POST',
+                        url: 'http://127.0.0.1:3000/products',
+                        data: {
+                            name: 'String',
+                            price: 'Number'
+                        }
+                    }
+                }
+            })
         }).catch(err => {
             res.status(500).json({error: err})
         });
 });
+
+
+
+
+
 
 module.exports = router;
