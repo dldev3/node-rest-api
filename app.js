@@ -17,6 +17,7 @@ mongoose.connect('mongodb+srv://'+ process.env.MONGODB_ATLAS_USERNAME +':'+ proc
 //     });
 // });
 
+app.use('/uploads',express.static('uploads'));
 app.use(morgan('dev'));
 app.use(express.urlencoded({extended: false}));
 app.use(express.json());
