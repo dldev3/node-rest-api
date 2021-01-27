@@ -6,6 +6,7 @@ const mongoose = require('mongoose');
 
 const productRoutes = require('./api/routes/products');
 const orderRoutes = require('./api/routes/orders');
+const userRoutes = require('./api/routes/users');
 
 mongoose.connect('mongodb+srv://'+ process.env.MONGODB_ATLAS_USERNAME +':'+ process.env.MONGODB_ATLAS_PASSWORD +'@cluster0.e74uy.mongodb.net/node_rest_api?retryWrites=true&w=majority', {
     useNewUrlParser: true, useUnifiedTopology: true
@@ -36,6 +37,7 @@ app.use((req, res, next) => {
 //Routes which handle requests
 app.use('/products', productRoutes);
 app.use('/orders', orderRoutes);
+app.use('/users', userRoutes);
 
 //handling req errors
 app.use((req, res, next) => {
@@ -52,9 +54,5 @@ app.use((error, req, res, next) => {
         }
     });
 });
-
-
-
-//mongodb+srv://araliyamapa:araliyamapa@cluster0.e74uy.mongodb.net/node_rest_api?retryWrites=true&w=majority
 
 module.exports =  app;
